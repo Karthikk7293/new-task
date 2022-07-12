@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { useAlert } from 'react-alert'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import StarRatings from 'react-star-ratings'
 import ProductCard from '../components/cards/ProductCard'
 
-import { getAllProducts } from '../Redux/actions'
+import { addToCart, getAllProducts } from '../Redux/actions'
 import './pages.css'
 
 function SingleProductScreen() {
   const params = useParams()
   const dispatch = useDispatch()
+  const alert = useAlert()
   const [products, setProduct] = useState(null)
   const [suggestions, setSuggestions] = useState(null)
   const { allProducts } = useSelector((state) => state.allProducts)
@@ -36,6 +38,12 @@ function SingleProductScreen() {
     }
   }, [allProducts])
 
+  const addTOcartHandler = (product,quantity) => {
+    dispatch(addToCart(product,quantity))
+    alert.success("item add to cart")
+
+  }
+
   return (
     <Container>
       <Row className="  ms-auto">
@@ -60,7 +68,7 @@ function SingleProductScreen() {
               <p className='text-start fw-bold text-success text-uppercase'>{products && products.rating >= 1 ? "instock" : " out of stock"}</p>
               <p className="text-muted text-start h6 fw-light  mt-5 p-0 m-0">{products?.description} </p>
               <p className='text-start text-muted fw-light mb-5 mt-2'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure nostrum quis obcaecati officiis, numquam dicta modi nisi asperiores placeat laudantium voluptates maxime molestias animi doloribus iusto minima dolores ut eaque!</p>
-              <button className='add-to-cart border-0  text-white   mx-1'>add to cart</button>
+              <button className='add-to-cart border-0  text-white   mx-1' onClick={(()=>addTOcartHandler(products,1))}>add to cart</button>
               <button className='buy-now border-0  text-white  mx-1'>buy now</button>
             </div>
 

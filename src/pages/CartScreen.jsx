@@ -22,7 +22,6 @@ function CartScreen() {
 
   const updateCartCount = (product, quantity) => {
     dispatch(addToCart(product, quantity))
-
   }
   const removeProduct = (product) => {
     dispatch(removeFromCart(product))
